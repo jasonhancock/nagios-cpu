@@ -42,21 +42,41 @@ $vlabel = 'Percent';
     
 $opt[1] = sprintf('-T 55 -l 0 --vertical-label "%s" --title "%s / CPU Usage"', $vlabel, $hostname);
 $def[1] = '';
-
-$count = 0;
+$ds_name[1] = 'CPU Usage';
 
 foreach ($DS as $i) {
     $def[1] .= rrd::def("var$i", $rrdfile, $DS[$i], 'AVERAGE');
 
     if ($i == '1') {
-        $def[1] .= rrd::area ("var$i", $colors[$count], rrd::cut(ucfirst($NAME[$i]), 15));
+        $def[1] .= rrd::area ("var$i", $colors[$i-1], rrd::cut(ucfirst($NAME[$i]), 15));
     } else {
-        $def[1] .= rrd::area ("var$i", $colors[$count], rrd::cut(ucfirst($NAME[$i]), 15), 'STACK');
+        $def[1] .= rrd::area ("var$i", $colors[$i-1], rrd::cut(ucfirst($NAME[$i]), 15), 'STACK');
     }
 
     $def[1] .= rrd::gprint  ("var$i", array('LAST','MAX','AVERAGE'), "%4.0lf %s\\t");
-
-    $count++;
 }
 
 $def[1] .= 'COMMENT:"' . $TEMPLATE[$i] . '\r" ';
+
+
+$opt[2] = sprintf('-T 55 -l 0 --vertical-label "%s" --title "%s / CPU Usage (sans idle)"', $vlabel, $hostname);
+$def[2] = '';
+$ds_name[2] = 'CPU Usage (sans idle)';
+
+foreach ($DS as $i) {
+    $def[2] .= rrd::def("var$i", $rrdfile, $DS[$i], 'AVERAGE');
+
+    if($i == 4)
+        continue;
+
+    if ($i == '1') {
+        $def[2] .= rrd::area ("var$i", $colors[$i-1], rrd::cut(ucfirst($NAME[$i]), 15));
+    } else {
+        $def[2] .= rrd::area ("var$i", $colors[$i-1], rrd::cut(ucfirst($NAME[$i]), 15), 'STACK');
+    }
+
+    $def[2] .= rrd::gprint  ("var$i", array('LAST','MAX','AVERAGE'), "%4.0lf %s\\t");
+}
+
+$def[2] .= 'COMMENT:"' . $TEMPLATE[$i] . '\r" ';
+
