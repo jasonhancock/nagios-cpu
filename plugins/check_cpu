@@ -39,7 +39,7 @@ my $np = Nagios::Plugin->new(
 $np->getopts;
 
 
-my @keys = qw/user nice system idle iowait irq softirq steal guest/;
+my @keys = qw/user nice system idle iowait irq softirq steal guest guest_nice/;
 my %results;
 
 foreach my $key(@keys) {
@@ -62,9 +62,8 @@ foreach my $line(@lines) {
 foreach my $key(@keys) {
     $np->add_perfdata(
         label => $key,
-        value => $results{$key} 
+        value => $results{$key}
     );
 }
 
 $np->nagios_exit('OK', '');
-
