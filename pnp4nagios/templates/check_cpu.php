@@ -35,11 +35,12 @@ $colors = array(
     '#F39034' . $alpha,
     '#3D282A' . $alpha,
     '#33369E' . $alpha,
-    '#08A000' . $alpha
+    '#08A000' . $alpha,
+    '#F2C45A' . $alpha
 );
 
 $vlabel = 'Percent';
-    
+
 $opt[1] = sprintf('-T 55 -l 0 --vertical-label "%s" --title "%s / CPU Usage"', $vlabel, $hostname);
 $def[1] = '';
 $ds_name[1] = 'CPU Usage';
