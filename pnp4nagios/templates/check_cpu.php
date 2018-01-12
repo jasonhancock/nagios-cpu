@@ -45,8 +45,8 @@ $opt[1] = sprintf('-T 55 -l 0 --vertical-label "%s" --title "%s / CPU Usage"', $
 $def[1] = '';
 $ds_name[1] = 'CPU Usage';
 
-foreach ($DS as $i) {
-    $def[1] .= rrd::def("var$i", $rrdfile, $DS[$i], 'AVERAGE');
+foreach ($DS as $i => $j) {
+    $def[1] .= rrd::def("var$i", $RRDFILE[$i], $DS[$i], 'AVERAGE');
 
     if ($i == '1') {
         $def[1] .= rrd::area ("var$i", $colors[$i-1], rrd::cut(ucfirst($NAME[$i]), 15));
@@ -64,8 +64,8 @@ $opt[2] = sprintf('-T 55 -l 0 --vertical-label "%s" --title "%s / CPU Usage (san
 $def[2] = '';
 $ds_name[2] = 'CPU Usage (sans idle)';
 
-foreach ($DS as $i) {
-    $def[2] .= rrd::def("var$i", $rrdfile, $DS[$i], 'AVERAGE');
+foreach ($DS as $i => $j) {
+    $def[2] .= rrd::def("var$i", $RRDFILE[$i], $DS[$i], 'AVERAGE');
 
     if($i == 4)
         continue;
